@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comic Studio - Create Amazing Comic Books with AI</title>
+    <meta name="description" content="Create personalized comic books with AI. Upload photos, generate stories, and transform your comics into videos with voiceovers.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #E8F4F8 0%, #F0F8FA 50%, #E0F2F7 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(56, 189, 183, 0.1);
+        }
+
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #38BDB7 0%, #2A9D98 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #1a1a1a;
+        }
+
+        main {
+            padding-top: 64px;
+        }
+
+        .hero-section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: #666;
+            max-width: 42rem;
+            margin: 0 auto 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(56, 189, 183, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(56, 189, 183, 0.15);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(56, 189, 183, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 24px;
+        }
+
+        .feature-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            font-size: 0.875rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .app-container {
+            width: 100%;
+            background: linear-gradient(135deg, #E8F4F8 0%, #F0F8FA 50%, #E0F2F7 100%);
+        }
+
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1.5rem;
+        }
+
+        .loading-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(56, 189, 183, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .loading-text {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .app-iframe {
+            width: 100%;
+            min-height: calc(100vh - 4rem);
+            border: none;
+            display: block;
+            background: transparent;
+            transition: opacity 0.5s ease;
+        }
+
+        .app-iframe.hidden {
+            opacity: 0;
+            height: 0;
+            min-height: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon">📚</div>
+                <h1 class="logo-text">Comic Studio</h1>
+            </div>
+            <nav>
+                <a href="#features">Features</a>
+                <a href="#app">Create Now</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="features" class="hero-section">
+            <h2 class="hero-title">Create Amazing Comic Books with AI</h2>
+            <p class="hero-subtitle">
+                Upload photos, craft stories, and bring your comic books to life with voiceovers
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <h3 class="feature-title">Upload Characters</h3>
+                    <p class="feature-description">
+                        Add your photos with character names and gender to create personalized comic book characters
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title">AI Story Generation</h3>
+                    <p class="feature-description">
+                        Generate stories by language, country & category, or create custom plots with AI assistance
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎬</div>
+                    <h3 class="feature-title">Video with Voiceover</h3>
+                    <p class="feature-description">
+                        Transform your comic book into an engaging video with professional AI-generated voiceovers
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="app" class="app-container">
+            <div id="loading" class="loading-state">
+                <div class="loading-icon">📚</div>
+                <p class="loading-text">Loading your Comic Studio...</p>
+            </div>
+            
+            <iframe
+                id="comic-iframe"
+                src="https://comic-studio-with-voice-ove-224469654609.us-west1.run.app/"
+                title="Comic Studio App"
+                class="app-iframe hidden"
+                allow="camera; microphone; fullscreen"
+            ></iframe>
+        </section>
+    </main>
+
+    <script>
+        // Handle iframe loading
+        const iframe = document.getElementById('comic-iframe');
+        const loading = document.getElementById('loading');
+
+        // Show iframe after a brief delay to ensure smooth transition
+        setTimeout(() => {
+            iframe.classList.remove('hidden');
+            loading.style.display = 'none';
+        }, 1500);
+
+        // Optional: Hide loading immediately if iframe loads faster
+        iframe.addEventListener('load', () => {
+            setTimeout(() => {
+                iframe.classList.remove('hidden');
+                loading.style.display = 'none';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
